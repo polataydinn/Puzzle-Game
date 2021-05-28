@@ -15,7 +15,6 @@ class PuzzleGameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(item: CardModel, firstItemClicked: Boolean) {
-        itemList.add()
         itemImage?.setImageResource(item.imagePath)
     }
 
