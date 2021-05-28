@@ -1,6 +1,7 @@
 package com.example.puzzlegame.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.puzzlegame.CardModel
@@ -15,7 +16,9 @@ class PuzzleGameAdapter(var itemList :  List<CardModel>) : RecyclerView.Adapter<
     }
 
     override fun onBindViewHolder(holder: PuzzleGameViewHolder, position: Int) {
-        holder.bind(itemList[position])
+        holder.itemView.rootView.setOnClickListener(View.OnClickListener {
+            holder.bind(itemList[position])
+        })
     }
 
     override fun getItemCount() = itemList.size

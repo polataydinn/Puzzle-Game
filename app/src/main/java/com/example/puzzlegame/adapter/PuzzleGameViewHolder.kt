@@ -14,7 +14,8 @@ class PuzzleGameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(item: CardModel) {
-        itemImage?.setImageResource(item.imagePath)
+        var cardModel = item
+      itemImage?.setImageResource(item.imagePath)
     }
 
 }
