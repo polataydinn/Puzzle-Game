@@ -8,14 +8,15 @@ import com.example.puzzlegame.R
 
 class PuzzleGameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var itemImage: ImageView? = null
+    var itemList: List<CardModel>? = null
 
     init {
         itemImage = itemView.findViewById(R.id.imageItem)
     }
 
-    fun bind(item: CardModel) {
-        var cardModel = item
-      itemImage?.setImageResource(item.imagePath)
+    fun bind(item: CardModel, firstItemClicked: Boolean) {
+        itemList.add()
+        itemImage?.setImageResource(item.imagePath)
     }
 
 }

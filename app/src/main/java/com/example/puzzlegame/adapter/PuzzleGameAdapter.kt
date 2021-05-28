@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.puzzlegame.CardModel
 import com.example.puzzlegame.R
 
-class PuzzleGameAdapter(var itemList :  List<CardModel>) : RecyclerView.Adapter<PuzzleGameViewHolder>() {
+class PuzzleGameAdapter(var itemList: List<CardModel>) :
+    RecyclerView.Adapter<PuzzleGameViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PuzzleGameViewHolder {
         val view = LayoutInflater
             .from(parent.context)
@@ -17,7 +18,7 @@ class PuzzleGameAdapter(var itemList :  List<CardModel>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: PuzzleGameViewHolder, position: Int) {
         holder.itemView.rootView.setOnClickListener(View.OnClickListener {
-            holder.bind(itemList[position])
+            holder.bind(itemList[position], false)
         })
     }
 
