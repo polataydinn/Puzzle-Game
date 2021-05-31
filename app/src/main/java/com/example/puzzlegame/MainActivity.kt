@@ -1,6 +1,8 @@
 package com.example.puzzlegame
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -47,21 +49,25 @@ class MainActivity : AppCompatActivity() {
         adapter = PuzzleGameAdapter { position ->
             tempCardList.add(position)
             cardList[position].isOpen = true
-            if (tempCardList.size == 2) {
-                if (cardList[tempCardList[0]].id == cardList[tempCardList[1]].id) {
-                    cardList[tempCardList[0]].isImageMatched = true
-                    cardList[tempCardList[0]].isOpen = true
-                    cardList[tempCardList[1]].isImageMatched = true
-                    cardList[tempCardList[1]].isOpen = true
-                } else {
-                    cardList[position].isOpen = false
-                    cardList[tempCardList[0]].isOpen = false
+            Handler(Looper.getMainLooper()).postDelayed(Runnable {
+                if(tempCardList.size == 2) {
+                    if (cardList[tempCardList[0]].id == cardList[tempCardList[1]].id) {
+                        cardList[tempCardList[0]].isImageMatched = true
+                        cardList[tempCardList[0]].isOpen = true
+                        cardList[tempCardList[1]].isImageMatched = true
+                        cardList[tempCardList[1]].isOpen = true
+                    } else {
+                        cardList[position].isOpen = false
+                        cardList[tempCardList[0]].isOpen = false
+                    }
+                    tempCardList.clear()
+
                 }
-                tempCardList.clear()
-            }
+            }, 10)
 
             adapter.submitList(null)
             adapter.submitList(cardList)
+
         }
         adapter.submitList(cardList)
         val layoutManager = GridLayoutManager(this, 4)
