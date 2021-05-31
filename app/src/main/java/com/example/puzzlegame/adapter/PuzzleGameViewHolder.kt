@@ -1,8 +1,8 @@
 package com.example.puzzlegame.adapter
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.example.puzzlegame.CardModel
+import com.example.puzzlegame.R
 import com.example.puzzlegame.databinding.CardItemBinding
 
 class PuzzleGameViewHolder(private val binding: CardItemBinding) :
@@ -10,12 +10,17 @@ class PuzzleGameViewHolder(private val binding: CardItemBinding) :
 
     fun bind(
         item: CardModel,
-        onItemClickListener: (Int, CardModel) -> Unit
+        onItemClickListener: (Int) -> Unit
     ) {
-
+        if (item.isOpen){
+            binding.imageItem.setImageResource(item.imagePath)
+        } else {
+            binding.imageItem.setImageResource(R.drawable.kurtlar_vadisi)
+        }
         binding.root.setOnClickListener {
-            if (RecyclerView.NO_POSITION != bindingAdapterPosition)
-                onItemClickListener(bindingAdapterPosition, item)
+            if (RecyclerView.NO_POSITION != bindingAdapterPosition) {
+                onItemClickListener(bindingAdapterPosition)
+            }
         }
     }
 }

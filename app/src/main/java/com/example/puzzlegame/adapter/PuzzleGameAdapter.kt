@@ -1,5 +1,6 @@
 package com.example.puzzlegame.adapter
 
+import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -8,7 +9,7 @@ import com.example.puzzlegame.CardModel
 import com.example.puzzlegame.databinding.CardItemBinding
 
 class PuzzleGameAdapter(
-    val onItemClickListener: (Int, CardModel) -> Unit
+    val onItemClickListener: (Int) -> Unit
 ) :
     ListAdapter<CardModel, PuzzleGameViewHolder>(DiffCallback()) {
 

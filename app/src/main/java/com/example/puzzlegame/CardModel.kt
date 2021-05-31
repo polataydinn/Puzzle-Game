@@ -2,10 +2,8 @@ package com.example.puzzlegame
 
 data class CardModel(
     val id: Int,
-    val imagePath: Int
-)
-data class CardModel2(
-    val id: Int,
     val imagePath: Int,
-    val colorId:Int
+    var isImageSelected: Boolean = false,
+    var isImageMatched: Boolean = false,
+    var isOpen: Boolean = false
 )
