@@ -1,26 +1,33 @@
 package com.example.puzzlegame.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import com.example.puzzlegame.CardModel
-import com.example.puzzlegame.R
+import com.example.puzzlegame.databinding.CardItemBinding
 
-class PuzzleGameAdapter(var itemList: List<CardModel>) :
-    RecyclerView.Adapter<PuzzleGameViewHolder>() {
+class PuzzleGameAdapter(
+    val onItemClickListener: (Int, CardModel) -> Unit
+) :
+    ListAdapter<CardModel, PuzzleGameViewHolder>(DiffCallback()) {
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PuzzleGameViewHolder {
-        val view = LayoutInflater
-            .from(parent.context)
-            .inflate(R.layout.card_item, parent, false)
-        return PuzzleGameViewHolder(view)
+        val binding = CardItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return PuzzleGameViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: PuzzleGameViewHolder, position: Int) {
-        holder.itemView.rootView.setOnClickListener(View.OnClickListener {
-            holder.bind(itemList[position], false)
-        })
+        holder.bind(getItem(position), onItemClickListener)
     }
 
-    override fun getItemCount() = itemList.size
+    class DiffCallback : DiffUtil.ItemCallback<CardModel>() {
+        override fun areItemsTheSame(oldItem: CardModel, newItem: CardModel) =
+            oldItem.id == newItem.id
+
+
+        override fun areContentsTheSame(oldItem: CardModel, newItem: CardModel) =
+            oldItem == newItem
+
+    }
 }

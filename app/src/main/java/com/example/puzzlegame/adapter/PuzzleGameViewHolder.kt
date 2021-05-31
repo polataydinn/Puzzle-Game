@@ -1,21 +1,21 @@
 package com.example.puzzlegame.adapter
 
 import android.view.View
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.puzzlegame.CardModel
-import com.example.puzzlegame.R
+import com.example.puzzlegame.databinding.CardItemBinding
 
-class PuzzleGameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    var itemImage: ImageView? = null
-    var itemList: List<CardModel>? = null
+class PuzzleGameViewHolder(private val binding: CardItemBinding) :
+    RecyclerView.ViewHolder(binding.root) {
 
-    init {
-        itemImage = itemView.findViewById(R.id.imageItem)
+    fun bind(
+        item: CardModel,
+        onItemClickListener: (Int, CardModel) -> Unit
+    ) {
+
+        binding.root.setOnClickListener {
+            if (RecyclerView.NO_POSITION != bindingAdapterPosition)
+                onItemClickListener(bindingAdapterPosition, item)
+        }
     }
-
-    fun bind(item: CardModel, firstItemClicked: Boolean) {
-        itemImage?.setImageResource(item.imagePath)
-    }
-
 }
