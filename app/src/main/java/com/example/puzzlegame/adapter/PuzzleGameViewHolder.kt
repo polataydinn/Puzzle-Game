@@ -12,10 +12,12 @@ class PuzzleGameViewHolder(private val binding: CardItemBinding) :
         item: CardModel,
         onItemClickListener: (Int) -> Unit
     ) {
-        if (item.isOpen){
+        if (item.isOpen) {
             binding.imageItem.setImageResource(item.imagePath)
+            binding.root.isEnabled = false
         } else {
             binding.imageItem.setImageResource(R.drawable.kurtlar_vadisi)
+            binding.root.isEnabled = true
         }
         binding.root.setOnClickListener {
             if (RecyclerView.NO_POSITION != bindingAdapterPosition) {

@@ -29,6 +29,5 @@ class PuzzleGameAdapter(
 
         override fun areContentsTheSame(oldItem: CardModel, newItem: CardModel) =
             oldItem == newItem
-
     }
 }
