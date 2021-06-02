@@ -36,6 +36,7 @@ class RestartGameFragment : Fragment() {
                         ?.replace(R.id.fragmentContainer,gameFragment,"Fragment Replaced")
                         ?.addToBackStack(null)
                         ?.commit()
+
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {}
