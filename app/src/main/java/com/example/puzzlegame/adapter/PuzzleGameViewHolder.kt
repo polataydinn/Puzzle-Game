@@ -14,10 +14,8 @@ class PuzzleGameViewHolder(private val binding: CardItemBinding) :
     ) {
         if (item.isOpen) {
             binding.imageItem.setImageResource(item.imagePath)
-            binding.root.isEnabled = false
         } else {
             binding.imageItem.setImageResource(R.drawable.kurtlar_vadisi)
-            binding.root.isEnabled = true
         }
         binding.root.setOnClickListener {
             if (RecyclerView.NO_POSITION != bindingAdapterPosition) {
