@@ -1,4 +1,4 @@
-package com.example.puzzlegame
+package com.example.puzzlegame.model
 
 data class CardModel(
     val id: Int,

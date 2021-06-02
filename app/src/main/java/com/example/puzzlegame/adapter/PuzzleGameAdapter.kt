@@ -1,11 +1,10 @@
 package com.example.puzzlegame.adapter
 
-import android.renderscript.ScriptGroup
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.example.puzzlegame.CardModel
+import com.example.puzzlegame.model.CardModel
 import com.example.puzzlegame.databinding.CardItemBinding
 
 class PuzzleGameAdapter(

@@ -1,60 +1,130 @@
 package com.example.puzzlegame.fragments
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.puzzlegame.R
+import com.example.puzzlegame.adapter.PuzzleGameAdapter
+import com.example.puzzlegame.model.CardModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [GameFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class GameFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var recyclerView: RecyclerView
+    val cardList = arrayListOf<CardModel>()
+    private lateinit var adapter: PuzzleGameAdapter
+    private var score: Int = 0
+    private var isGameStarted: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_game, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment GameFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            GameFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @SuppressLint("ResourceAsColor")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recyclerView = view.findViewById(R.id.idCourseRV)
+        initContent()
+
+        adapter = PuzzleGameAdapter { position ->
+            if (!isGameStarted) {
+                cardList[position] = cardList[position].copy(isOpen = true)
+                adapter.submitList(null)
+                adapter.submitList(cardList.toList())
+                isGameStarted = true
+            } else {
+                if ((score >= 0 || score < 10)) {
+                    if (!(cardList[position].isOpen && cardList[position].isImageMatched)) {
+                        cardList[position] = cardList[position].copy(isOpen = true)
+                        val indexList = cardList
+                            .filter { (it.isOpen || (it.id == cardList[position].id)) && !it.isImageMatched }
+                            .map { cardList.indexOf(it) }
+
+                        Handler(Looper.getMainLooper()).postDelayed({
+                            if (indexList.size == 2) {
+                                if (cardList[indexList[0]].imagePath == cardList[indexList[1]].imagePath) {
+                                    cardList[indexList[0]] = cardList[indexList[0]].copy(
+                                        isOpen = true,
+                                        isImageMatched = true
+                                    )
+                                    cardList[indexList[1]] = cardList[indexList[1]].copy(
+                                        isOpen = true,
+                                        isImageMatched = true
+                                    )
+                                    score += 1
+                                    if (score == 10) {
+                                        val restartGameFragment = RestartGameFragment()
+                                        activity?.supportFragmentManager
+                                            ?.beginTransaction()
+                                            ?.replace(R.id.fragmentContainer,
+                                                restartGameFragment,
+                                                "Fragment Replaced")
+                                            ?.addToBackStack(null)
+                                            ?.commit()
+                                    }
+                                } else {
+                                    cardList[indexList[0]] = cardList[indexList[0]].copy(
+                                        isOpen = false,
+                                        isImageMatched = false
+                                    )
+                                    cardList[indexList[1]] = cardList[indexList[1]].copy(
+                                        isOpen = false,
+                                        isImageMatched = false
+                                    )
+                                }
+                            } else {
+                                cardList[indexList[0]] = cardList[indexList[0]].copy(
+                                    isOpen = true,
+                                    isImageMatched = false
+                                )
+                            }
+                        }, 10)
+                        adapter.submitList(cardList.toList())
+                    }
                 }
             }
+        }
+        adapter.submitList(cardList)
+        val layoutManager = GridLayoutManager(context, 4)
+        recyclerView.layoutManager = layoutManager
+        recyclerView.adapter = adapter
+    }
+
+    private fun initContent() {
+        cardList.apply {
+            add(CardModel(1, R.drawable.polat))
+            add(CardModel(2, R.drawable.abdulhey))
+            add(CardModel(3, R.drawable.aslan))
+            add(CardModel(4, R.drawable.duran))
+            add(CardModel(5, R.drawable.elif))
+            add(CardModel(6, R.drawable.erhan))
+            add(CardModel(7, R.drawable.mehmet))
+            add(CardModel(8, R.drawable.memati))
+            add(CardModel(9, R.drawable.suleyman))
+            add(CardModel(10, R.drawable.ziya))
+            add(CardModel(11, R.drawable.polat))
+            add(CardModel(12, R.drawable.abdulhey))
+            add(CardModel(13, R.drawable.aslan))
+            add(CardModel(14, R.drawable.duran))
+            add(CardModel(15, R.drawable.elif))
+            add(CardModel(16, R.drawable.erhan))
+            add(CardModel(17, R.drawable.mehmet))
+            add(CardModel(18, R.drawable.memati))
+            add(CardModel(19, R.drawable.suleyman))
+            add(CardModel(20, R.drawable.ziya))
+        }
+        cardList.shuffle()
     }
 }
